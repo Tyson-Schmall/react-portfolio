@@ -3,7 +3,10 @@ import React, { Component } from "react";
 import PortfolioItem from "./portfolio-item";
 
 export default class PortfolioContainer extends Component {
-    // State will not work inside of a functional component, it has to be in a class component.
+    constructor() {
+        super();
+    }
+
     render() {
         return (
             <div>
