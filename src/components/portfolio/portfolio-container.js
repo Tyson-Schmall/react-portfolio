@@ -11,12 +11,7 @@ export default class PortfolioContainer extends Component {
         this.state = {
             pageTitle: "Welcome to my portfolio",
             isLoading: false,
-            data: [
-                {title: "Quip", category: "eCommerce", slug: 'quip' },
-                {title: "Eventbrite", category: "Scheduling", slug: 'eventbrite' }, 
-                {title: "Ministry Safe", category: "Enterprise", slug: 'ministrysafe' },
-                {title: "SwingAway", category: "eCommerce", slug: 'swingaway' }
-            ]
+            data: []
         };
 
         this.handleFilter = this.handleFilter.bind(this)
@@ -31,25 +26,31 @@ export default class PortfolioContainer extends Component {
     }
 
     getPortfolioItems() {
-        axios.get('https://tysonschmall.devcamp.space/portfolio/portfolio_items')
-      .then(response => {
-        // handle success
-        console.log("response data", response);
-      })
-      .catch(function (error) {
-        // handle error
+    axios
+        .get('https://tysonschmall.devcamp.space/portfolio/portfolio_items')
+        .then(response => {
+            console.log("response data", response);
+            this.setState({
+                data: response.data.portfolio_items
+            });
+        })
+        .catch(function (error) {
         console.log(error);
-      });
-      }
+        });
+    }
 
     portfolioItems() {
         return this.state.data.map(item => {
-            return <PortfolioItem title={item.title} url="https://www.google.com"/>;
+            return <PortfolioItem key={item.id} item={item} />;
         })
     }
 
-    render() {
+    componentDidMount() {
         this.getPortfolioItems();
+    }
+
+
+    render() {
         if (this.state.isLoading) {
             return <div>Gimme just a moment...</div>
         }

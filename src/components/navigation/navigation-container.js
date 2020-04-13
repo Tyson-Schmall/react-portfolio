@@ -9,25 +9,29 @@ export default class NavigationComponent extends Component {
 
     render() {
         return (
-            <div>
+            <div className="nav-wrapper">
+                
+                <div className="left-side">
+                    <NavLink exact to="/" activeClassName="nav-link-active">
+                        Home
+                    </NavLink>
 
-                <NavLink exact to="/" activeClassName="nav-link-active">
-                    Home
-                </NavLink>
+                    <NavLink to="/about-me" activeClassName="nav-link-active">
+                        About
+                    </NavLink>
 
-                <NavLink to="/about-me" activeClassName="nav-link-active">
-                    About
-                </NavLink>
+                    <NavLink to="/contact" activeClassName="nav-link-active">
+                        Contact
+                    </NavLink>
 
-                <NavLink to="/contact" activeClassName="nav-link-active">
-                    Contact
-                </NavLink>
+                    <NavLink to="/blog" activeClassName="nav-link-active">
+                        Blog
+                    </NavLink>
+                
+                    {false ? <button>Add Blog</button> : null }
+                </div>
 
-                <NavLink to="/blog" activeClassName="nav-link-active">
-                    Blog
-                </NavLink>
-            
-                {false ? <button>Add Blog</button> : null }
+                <div className="right-side">Tyson Schmall</div>
             </div>
         );
     };
