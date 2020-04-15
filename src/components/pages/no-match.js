@@ -8,4 +8,4 @@ export default function() {
             <Link to="/">Return to homepage</Link>
         </div>
     )
-}
+} 
