@@ -23,6 +23,7 @@ export default class Login extends Component {
     }
 
     handleSubmit(event) {
+        event.preventDefault();
         axios.post("https://api.devcamp.space/sessions",
         {
             client: {
@@ -34,21 +35,20 @@ export default class Login extends Component {
         )
         .then(response => {
             if (response.data.status === "created") {
-                console.log("Welcome...")
+                this.props.handleSuccessfulAuth();
             } else {
                 this.setState({
                     errorText: "Incorrect email/password combination"
-                })
+                });
+                this.props.handleUnsuccessfulAuth();
             }
         })
         .catch(error => {
             this.setState({
                 errorText: "An error occurred",
             });
+            this.props.handleUnsuccessfulAuth();
         });
-
-
-        event.preventDefault();
     }
 
     render() {
