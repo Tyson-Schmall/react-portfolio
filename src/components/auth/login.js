@@ -31,7 +31,7 @@ export default class Login extends Component {
                 password: this.state.password
             }
         },
-            { withCredetinals: true }
+            { withCredentials: true }
         )
         .then(response => {
             if (response.data.status === "created") {
