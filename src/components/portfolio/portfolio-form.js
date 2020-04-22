@@ -19,6 +19,9 @@ export default class PortfolioForm extends Component {
             thumb_image: "",
             banner_image: "",
             logo: "",
+            editMode: false,
+            apiUrl: "https://tysonschmall.devcamp.space/portfolio/portfolio_items",
+            apiAction: "post"
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -29,13 +32,39 @@ export default class PortfolioForm extends Component {
         this.handleBannerDrop = this.handleBannerDrop.bind(this)
         this.handleLogoDrop = this.handleLogoDrop.bind(this)
         
-        
         this.thumbRef = React.createRef();
         this.bannerRef= React.createRef();
         this.logoRef = React.createRef();
+    }
 
+    componentDidUpdate() {
+      if (Object.keys(this.props.portfolioToEdit).length > 0) {
+        const {
+          id,
+          name,
+          description,
+          category,
+          position,
+          url,
+          thumb_image_url,
+          banner_image_url,
+          logo_url
+        } = this.props.portfolioToEdit;
 
+        this.props.clearPortfolioToEdit();
 
+        this.setState({
+          id: id,
+          name: name || "",
+          description: description || "",
+          category: category || "eCommerce",
+          position: position || "",
+          url: url || "",
+          editMode: true,
+          apiUrl: `https://tysonschmall.devcamp.space/portfolio/portfolio_items/${id}`,
+          apiAction: "patch"
+        })
+      }
     }
 
     handleThumbDrop() {
@@ -92,8 +121,6 @@ export default class PortfolioForm extends Component {
             formData.append("portfolio_item[logo]", this.state.logo)
         }
 
-
-
         return formData;
     }
 
@@ -105,13 +132,18 @@ export default class PortfolioForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        // https://tysonschmall.devcamp.space/portfolio/portfolio_items
-        axios.post(
-            "https://tysonschmall.devcamp.space/portfolio/portfolio_items", 
-            this.buildForm(),
-            { withCredentials: true }
-        ).then(response => {
-            this.props.handleSuccessfulFormSubmission(response.data.portfolio_item)
+        axios({
+          method: this.state.apiAction,
+          url: this.state.apiUrl,
+          data: this.buildForm(),
+          withCredentials: true,
+        })
+        .then(response => {
+          if (this.state.editMode) {
+            this.props.handleEditFormSubmission();
+          } else {
+            this.props.handleNewFormSubmission(response.data.portfolio_item)
+          }
 
             this.setState({
                 name: "",
@@ -122,6 +154,9 @@ export default class PortfolioForm extends Component {
                 thumb_image: "",
                 banner_image: "",
                 logo: "",
+                editMode: true,
+                apiUrl: `https://tysonschmall.devcamp.space/portfolio/portfolio_items/${id}`,
+                apiAction: "patch"
             });
 
             [this.thumbRef, this.bannerRef, this.logoRef].forEach(ref => {
