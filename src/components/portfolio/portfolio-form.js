@@ -62,7 +62,10 @@ export default class PortfolioForm extends Component {
           url: url || "",
           editMode: true,
           apiUrl: `https://tysonschmall.devcamp.space/portfolio/portfolio_items/${id}`,
-          apiAction: "patch"
+          apiAction: "patch",
+          thum_image: thumb_image_url || "",
+          banner_image: banner_image_url || "",
+          logo: logo_url || "",
         })
       }
     }
@@ -221,38 +224,58 @@ export default class PortfolioForm extends Component {
               </div>
     
               <div className="image-uploaders">
-                <DropzoneComponent
-                  ref={this.thumbRef}
-                  config={this.componentConfig()}
-                  djsConfig={this.djsConfig()}
-                  eventHandlers={this.handleThumbDrop()}
-                >
-                    <div className="dz-message">Thumbnail</div>
-                </DropzoneComponent>
-    
-                <DropzoneComponent
-                  ref={this.bannerRef}
-                  config={this.componentConfig()}
-                  djsConfig={this.djsConfig()}
-                  eventHandlers={this.handleBannerDrop()}
-                >
-                    <div className="dz-message">Banner</div>
-                </DropzoneComponent>
-    
-                <DropzoneComponent
-                  ref={this.logoRef}
-                  config={this.componentConfig()}
-                  djsConfig={this.djsConfig()}
-                  eventHandlers={this.handleLogoDrop()}
-                >
-                  <div className="dz-message">Logo</div>
+                {this.state.thumb_image && this.state.editMode ? (
+              <div className="portfolio-manager-image-wrapper">
+                <img src={this.state.thumb_image} />
+              </div>
+              ) : (
+              <DropzoneComponent
+                ref={this.thumbRef}
+                config={this.componentConfig()}
+                djsConfig={this.djsConfig()}
+                eventHandlers={this.handleThumbDrop()}
+              >
+                <div className="dz-message">Thumbnail</div>
               </DropzoneComponent>
+              )}
+
+              {this.state.banner_image && this.state.editMode ? (
+              <div className="portfolio-manager-image-wrapper">
+                <img src={this.state.banner_image} />
               </div>
-    
-              <div>
-                <button type="submit" className="btn">Save</button>
+              ) : (
+              <DropzoneComponent
+                ref={this.bannerRef}
+                config={this.componentConfig()}
+                djsConfig={this.djsConfig()}
+                eventHandlers={this.handleBannerDrop()}
+              >
+                <div className="dz-message">Banner</div>
+              </DropzoneComponent>
+              )}
+
+              {this.state.logo && this.state.editMode ? (
+              <div className="portfolio-manager-image-wrapper">
+                <img src={this.state.logo} />
               </div>
-            </form>
-        );
-      }
+              ) : (
+              <DropzoneComponent
+                ref={this.logoRef}
+                config={this.componentConfig()}
+                djsConfig={this.djsConfig()}
+                eventHandlers={this.handleLogoDrop()}
+              >
+                <div className="dz-message">Logo</div>
+              </DropzoneComponent>
+              )}
+            </div>
+
+          <div>
+            <button className="btn" type="submit">
+              Save
+            </button>
+          </div>
+        </form>
+      );
     }
+  }
