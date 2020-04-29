@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
+
 import PortfolioItem from "./portfolio-item";
 
 export default class PortfolioContainer extends Component {
   constructor() {
     super();
-
-    this.getPortfolioItems = this.getPortfolioItems.bind(this);
 
     this.state = {
       pageTitle: "Welcome to my portfolio",
@@ -33,7 +32,7 @@ export default class PortfolioContainer extends Component {
           data: response.data.portfolio_items,
         });
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
       });
   }
@@ -50,21 +49,21 @@ export default class PortfolioContainer extends Component {
 
   render() {
     if (this.state.isLoading) {
-      return <div>Gimme just a moment...</div>;
+      return <div>Loading...</div>;
     }
+
     return (
       <div className="portfolio-items-wrapper">
         <button className="btn" onClick={() => this.handleFilter("eCommerce")}>
           eCommerce
         </button>
-
         <button className="btn" onClick={() => this.handleFilter("Scheduling")}>
           Scheduling
         </button>
-
         <button className="btn" onClick={() => this.handleFilter("Enterprise")}>
           Enterprise
         </button>
+
         {this.portfolioItems()}
       </div>
     );

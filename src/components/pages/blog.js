@@ -5,7 +5,7 @@ import axios from "axios";
 import BlogItem from "../blog/blog-item";
 import BlogModal from "../modals/blog-modal";
 
-export default class Blog extends Component {
+class Blog extends Component {
   constructor() {
     super();
 
@@ -75,7 +75,7 @@ export default class Blog extends Component {
         }
       )
       .then((response) => {
-        console.log("getting", response.data);
+        console.log("gettting", response.data);
         this.setState({
           blogItems: this.state.blogItems.concat(response.data.portfolio_blogs),
           totalCount: response.data.meta.total_records,
@@ -129,3 +129,5 @@ export default class Blog extends Component {
     );
   }
 }
+
+export default Blog;

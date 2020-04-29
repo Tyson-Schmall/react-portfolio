@@ -38,16 +38,16 @@ export default class BlogDetail extends Component {
   }
 
   handleEditClick() {
-    this.setState({
-      editMode: true,
-    });
+    console.log("handle edit clicked");
+    if (this.props.loggedInStatus === "LOGGED_IN") {
+      this.setState({ editMode: true });
+    }
   }
 
   getBlogItem() {
     axios
       .get(
-        `https://tysonschmall.devcamp.space/portfolio/portfolio_blogs/
-            ${this.state.currentId}`
+        `https://tysonschmall.devcamp.space/portfolio/portfolio_blogs/${this.state.currentId}`
       )
       .then((response) => {
         this.setState({

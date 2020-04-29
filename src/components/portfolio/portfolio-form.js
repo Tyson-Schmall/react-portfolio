@@ -150,7 +150,6 @@ export default class PortfolioForm extends Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault();
     axios({
       method: this.state.apiAction,
       url: this.state.apiUrl,
@@ -173,8 +172,9 @@ export default class PortfolioForm extends Component {
           thumb_image: "",
           banner_image: "",
           logo: "",
-          editMode: true,
-          apiUrl: `https://tysonschmall.devcamp.space/portfolio/portfolio_items`,
+          editMode: false,
+          apiUrl:
+            "https://tysonschmall.devcamp.space/portfolio/portfolio_items",
           apiAction: "post",
         });
 
@@ -185,6 +185,8 @@ export default class PortfolioForm extends Component {
       .catch((error) => {
         console.log("portfolio form handleSubmit error", error);
       });
+
+    event.preventDefault();
   }
 
   render() {
@@ -246,7 +248,7 @@ export default class PortfolioForm extends Component {
 
               <div className="image-removal-link">
                 <a onClick={() => this.deleteImage("thumb_image")}>
-                  Remove File
+                  Remove file
                 </a>
               </div>
             </div>
@@ -267,7 +269,7 @@ export default class PortfolioForm extends Component {
 
               <div className="image-removal-link">
                 <a onClick={() => this.deleteImage("banner_image")}>
-                  Remove File
+                  Remove file
                 </a>
               </div>
             </div>
@@ -287,7 +289,7 @@ export default class PortfolioForm extends Component {
               <img src={this.state.logo_url} />
 
               <div className="image-removal-link">
-                <a onClick={() => this.deleteImage("logo")}>Remove File</a>
+                <a onClick={() => this.deleteImage("logo")}>Remove file</a>
               </div>
             </div>
           ) : (

@@ -2,83 +2,87 @@ import React, { Component } from "react";
 import axios from "axios";
 
 export default class Login extends Component {
-    constructor(props){
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            email: "",
-            password: "",
-        }
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-
+    this.state = {
+      email: "",
+      password: "",
+      errorText: "",
     };
 
-    handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value,
-            errorText: "",
-        })
-    }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        axios.post("https://api.devcamp.space/sessions",
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+      errorText: "",
+    });
+  }
+
+  handleSubmit(event) {
+    axios
+      .post(
+        "https://tysonschmall.devcamp.space/sessions",
         {
-            client: {
-                email: this.state.email,
-                password: this.state.password
-            }
+          client: {
+            email: this.state.email,
+            password: this.state.password,
+          },
         },
-            { withCredentials: true }
-        )
-        .then(response => {
-            if (response.data.status === "created") {
-                this.props.handleSuccessfulAuth();
-            } else {
-                this.setState({
-                    errorText: "Incorrect email/password combination"
-                });
-                this.props.handleUnsuccessfulAuth();
-            }
-        })
-        .catch(error => {
-            this.setState({
-                errorText: "An error occurred",
-            });
-            this.props.handleUnsuccessfulAuth();
+        { withCredentials: true }
+      )
+      .then((response) => {
+        if (response.data.status === "created") {
+          this.props.handleSuccessfulAuth();
+        } else {
+          this.setState({
+            errorText: "Wrong email or password",
+          });
+          this.props.handleUnsuccessfulAuth();
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          errorText: "An error occurred",
         });
-    }
+        this.props.handleUnsuccessfulAuth();
+      });
 
-    render() {
-        return (
-            <div>
-                <h1>Login to Access Your Dashboard</h1>
+    event.preventDefault();
+  }
 
-                <div>{this.state.errorText}</div>
-                <form onSubmit={this.handleSubmit}>
-                    <input 
-                        type="email"
-                        name="email"
-                        placeholder="Your email"
-                        value={this.state.email}
-                        onChange={this.handleChange}
-                    />
+  render() {
+    return (
+      <div>
+        <h1>Login to Access Your Dashboard</h1>
 
-                    <input 
-                        type="password"
-                        name="password"
-                        placeholder="Your password"
-                        value={this.state.password}
-                        onChange={this.handleChange}
-                    />
+        <div>{this.state.errorText}</div>
 
-                    <div>
-                        <button type="submit">Login</button>
-                    </div>
-                </form>
-            </div>
-        );
-    }
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            placeholder="Your email"
+            value={this.state.email}
+            onChange={this.handleChange}
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Your password"
+            value={this.state.password}
+            onChange={this.handleChange}
+          />
+
+          <div>
+            <button type="submit">Login</button>
+          </div>
+        </form>
+      </div>
+    );
+  }
 }

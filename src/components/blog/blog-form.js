@@ -28,7 +28,6 @@ export default class BlogForm extends Component {
     this.djsConfig = this.djsConfig.bind(this);
     this.handleFeaturedImageDrop = this.handleFeaturedImageDrop.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
-
     this.featuredImageRef = React.createRef();
   }
 
@@ -59,9 +58,11 @@ export default class BlogForm extends Component {
     }
   }
 
-  handleFeaturedImageDrop() {
+  componentConfig() {
     return {
-      addedfile: (file) => this.setState({ featured_image: file }),
+      iconFiletypes: [".jpg", ".png"],
+      showFiletypeIcon: true,
+      postUrl: "https://httpbin.org/post",
     };
   }
 
@@ -72,11 +73,9 @@ export default class BlogForm extends Component {
     };
   }
 
-  componentConfig() {
+  handleFeaturedImageDrop() {
     return {
-      iconFiletypes: [".jpg", ".png"],
-      showFiletypeIcon: true,
-      postUrl: "https://httpbin.org/post",
+      addedfile: (file) => this.setState({ featured_image: file }),
     };
   }
 
@@ -128,8 +127,6 @@ export default class BlogForm extends Component {
             response.data.portfolio_blog
           );
         }
-
-        this.props.handleSuccessfulFormSubmission(response.data.portfolio_blog);
       })
       .catch((error) => {
         console.log("handleSubmit for blog error", error);
@@ -184,7 +181,7 @@ export default class BlogForm extends Component {
 
               <div className="image-removal-link">
                 <a onClick={() => this.deleteImage("featured_image")}>
-                  Remove File
+                  Remove file
                 </a>
               </div>
             </div>
