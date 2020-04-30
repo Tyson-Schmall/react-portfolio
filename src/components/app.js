@@ -130,6 +130,7 @@ export default class App extends Component {
                   />
                 )}
               />
+
               {this.state.loggedInStatus === "LOGGED_IN"
                 ? this.authorizedPages()
                 : null}
